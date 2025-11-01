@@ -1,29 +1,29 @@
-# Use OpenJDK 21 for Spring Boot 3.3.5
-FROM --platform=linux/amd64 openjdk:21-jre-slim
+# Use OpenJDK 21 (full JDK slim variant)
+FROM openjdk:21-jdk-slim
 
-# Set working directory
+# Create work directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first for better caching
+# Copy Maven wrapper & POM for layer caching
 COPY mvnw .
 COPY mvnw.cmd .
 COPY .mvn .mvn
 COPY pom.xml .
 
-# Make mvnw executable
+# Make Maven wrapper executable
 RUN chmod +x ./mvnw
 
-# Download dependencies (this layer will be cached)
+# Download all dependencies (offline) — speeds up subsequent builds
 RUN ./mvnw dependency:go-offline -B
 
 # Copy source code
 COPY src ./src
 
-# Build the application
+# Build application, skipping tests for speed (optionally enable later)
 RUN ./mvnw clean package -DskipTests -B
 
-# Expose port 8080
+# Expose port (Render will route to this)
 EXPOSE 8080
 
-# Run the Spring Boot application
+# Run the application
 CMD ["java", "-jar", "target/campusconnect-0.0.1-SNAPSHOT.jar"]
