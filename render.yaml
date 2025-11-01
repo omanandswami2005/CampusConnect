@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: campusconnect-backend
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    region: oregon
+    branch: main
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: MONGODB_URI
+        sync: false # Set this manually in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true # Render will generate a secure secret
+      - key: JWT_EXPIRATION_MS
+        value: "86400000"
+      - key: PORT
+        value: "8080"
