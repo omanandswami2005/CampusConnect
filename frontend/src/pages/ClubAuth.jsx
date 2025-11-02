@@ -149,7 +149,7 @@ export default function ClubAuth() {
 
           <BlurText
             text={`${isLogin ? "Welcome Back" : "Join CampusConnect"}`}
-            className="text-3xl font-bold gradient-text"
+            className="text-3xl font-bold text-gray-900 dark:text-white"
             animateBy="words"
             stagger={0.1}
           />
@@ -158,7 +158,7 @@ export default function ClubAuth() {
             text={`${
               isLogin ? "Sign in to your account" : "Create your account"
             } as a ${role}`}
-            className="text-gray-600 dark:text-gray-400"
+            className="text-gray-600 dark:text-gray-300"
             delay={0.3}
             animateBy="words"
           />
